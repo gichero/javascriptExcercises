@@ -4,7 +4,7 @@ var guess = Number(prompt("guess a number?"));
 
 
 if (guess === num){
-    alert("you guessed right");
+    alert("you guessed right!");
 }
 
 else if (guess < num){
