@@ -52,3 +52,32 @@ function wordHistogram(word){
     return wordDict;
 }
 console.log(wordHistogram("to be or not to be"));
+
+// Bonus
+// Print the top 2 most frequently used letters in the string.
+function wordHistogram(string){
+    var wordArray = string.split(' ');
+    var wordDict = {};
+    for (var i = 0; i < wordArray.length; i ++) {
+        var word = wordArray[i];
+        if ( !(word in wordDict) ) {
+            wordDict[word] = 1;
+        } else {
+            wordDict[word] += 1;
+        }
+    }
+    var sorted_array = [];
+    // Add each word and count pair as an array within sorted_array
+    for (var word_ in wordDict) {
+        // This returns an array with all the pairs
+        sorted_array.push( [word_, wordDict[word_]] );
+    }
+    // This method sorts the array with largest count first
+    sorted_array.sort(function(word, count) {
+        return count[1] - word[1];
+    });
+    console.log('The most used word is: ' + sorted_array[0][0]);
+    console.log('The most used word is: ' + sorted_array[1][0]);
+}
+
+wordHistogram('to be or not to be or or or to');
