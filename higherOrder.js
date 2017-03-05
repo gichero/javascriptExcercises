@@ -172,14 +172,14 @@ var strList = strArr.reduce(function(sep, strArr){
 console.log(strList);
 
 //Acronym
-function acronym(words)
-{
-    if (!words) { return ''; }
-
-    var first_letter = function(x){ if (x) { return x[0]; } else { return ''; }};
-
-    return words.split(' ').map(first_letter).join('');
+function acronym(array){
+    var acr = array.reduce(function(firstLetter, name){
+        return firstLetter + name[0].toUpperCase();
+    }, '');
+    console.log(acr);
 }
+acronym('alcohol', 'tobbacco', 'firearms');
+
 
 //str multiply(*without spaces*)
 
