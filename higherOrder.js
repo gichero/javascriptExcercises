@@ -196,6 +196,7 @@ return newStr;
 console.log(strArray(5, "digital")); // call no of times (5) to output string "digital"
 
 //generate a box
+//range function provided by Toby with a for loop
 function range(min, max) {
 var arr = [];
 for (var i = min; i < max; i++) {
@@ -219,6 +220,7 @@ function box(width, height){
 
 box(4 , 5);
 
+//generate box
 //run on python tutor
 function range(min, max) {
 var arr = [];
@@ -228,23 +230,33 @@ arr.push(i);
 return arr;
 }
 
+function joinStr(arr, space){
+    var strJoin = arr.reduce(function(letterStr, word){
+        if (letterStr === '') {
+            return word;
+        } else {
+            return letterStr + space + word;
+        }
+    }, '');
+    return strJoin;
+}
 function box(width, height){
 
-    var warr = range(0,width);
-    var harr = range(0, height);
+    var boxWidth = range(0,width);
 
-    var blueprint = warr.map(function(a){
+    var boxHeight = range(0, height);
+
+    var arrStar = boxWidth.map(function(){
         return '*';
     });
-    var blueprint =harr.map(function(b){
-        return '*';
+
+    var strStar = joinStr(arrStar, '');
+
+    var arrBox = boxHeight.map(function(){
+        return strStar;
     });
 
-    var starprint = blueprint.reduce(function(a,b){
-      return a+b;
-    });
-
-    console.log("starprint: ",starprint);
-    }
-
-box(5 , 5);
+    var strBox = joinStr(arrBox, '\n');
+    return strBox;
+}
+console.log(box(4, 4));
