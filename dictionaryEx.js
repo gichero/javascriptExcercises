@@ -80,4 +80,4 @@ function wordHistogram(string){
     console.log('The most used word is: ' + sorted_array[1][0]);
 }
 
-wordHistogram('to be or not to be or or or to');
+wordHistogram('to be or not to be');
