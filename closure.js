@@ -29,27 +29,26 @@
 //
 //     //counter3
 //
-// function counter(){
-//     var count = 4;
-//     function increment(){
-//         count++;
-//         return count;
-//     }
-//     function decrement(){
-//         count--;
-//         return count;
-//     }
-//     return{
-//         increment: increment,
-//         decrement: decrement
-//     };
-//     }
-//
-// console.log(count.increment());
-// console.log(count.increment());
-// console.log(count.decrement());
-// console.log(count.decrement());
-//
+function counter(){
+    var count = 4;
+    function increment(){
+        count++;
+        return count;
+    }
+    function decrement(){
+        count--;
+        return count;
+    }
+    return{
+        increment: increment,
+        decrement: decrement
+    };
+    }
+console.log(count.increment());
+console.log(count.increment());
+console.log(count.decrement());
+console.log(count.decrement());
+
 
     //battleship
     //check the slides on closure for clarity (caesar cipher example)
@@ -73,4 +72,4 @@ var myFire = function() {
     return fire;
 }();
 console.log(myFire(3, 8));
-//if I include brackets after myFire in the top statement and remove the brackets in the closing function. I get the same result.
+//if I include brackets after myFire in the top console.log statement and remove the brackets in the closing function. I get the same result.
