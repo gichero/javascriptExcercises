@@ -1,23 +1,27 @@
 
-// Read a file
-// var fs = require('fs');
-// var readline = require('readline');
-// var rl = readline.createInterface({
-//     input:process.stdin,
-//     output: process.stdout
-// });
-//
-// rl.question('Filename: ', function(file){
-//     fs.readFile(file,function(err,data){
-//         if(err){
-//             console.log("error");
-//             return;
-//         }
-//         console.log(data.toString().toUpperCase());
-//
-//     });
-//     rl.close();
-// });
+//Read a file
+var fs = require('fs');
+var readline = require('readline');
+var rl = readline.createInterface({
+    input:process.stdin,
+    output: process.stdout
+});
+
+rl.question('Filename: ', function(file){
+    //request file name
+    fs.readFile(file,function(err,data){
+        // read file
+        if(err){
+            console.log("error");
+            return;
+        }
+        //error handling process incase there is an error retrieving file
+        console.log(data.toString().toUpperCase());
+        //file read, content converted to string 'UTF-8', then uppercase
+
+    });
+    rl.close();// close rl 
+});
 
 // DNS lookup
 
