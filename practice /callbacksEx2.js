@@ -21,7 +21,7 @@ function downloadAndCreateThumbnail(url, filename, thumbnailFilename, callback){
           callback(err);
         }
         gm(filename)
-          .resize(240, 240)
+          .resize(100, 100)
           .write(thumbnailFilename, function(err) {
             if (err) {
               callback(err);
