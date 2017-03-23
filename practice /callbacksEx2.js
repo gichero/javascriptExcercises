@@ -1,4 +1,4 @@
-var fs = require('fs');
+    var fs = require('fs');
 var gm = require('gm');
 var request = require('request');
 

@@ -22,6 +22,6 @@ function callback(err){
 }
 
 function writeSomething(file, callback){
-    fs.writeFile(file, 'NodeJs is fun', callback())
+    fs.writeFile(file, 'NodeJs is fun', callback());
 }
 async.each(filename, writeSomething, callback());

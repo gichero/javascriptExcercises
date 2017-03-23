@@ -1,0 +1,20 @@
+{
+  "name": "npm",
+  "version": "1.0.0",
+  "description": "my first project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Amos Gichero",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "cheerio": "^0.22.0",
+    "express": "^4.15.2",
+    "lodash": "^4.17.4",
+    "marked": "^0.3.6",
+    "request": "^2.81.0",
+    "socket.io": "^1.7.3"
+  }
+}
