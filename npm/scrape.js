@@ -7,11 +7,26 @@
 //
 // Find any npm module and learn how to use it by reading its documentation. You can do a google search for something you might be interested in and add "npm" to the search term. Or you can look through this list for some inspiration.
 
-var request = require('request');
 var cheerio = require('cheerio');
+var fs = require('fs');
+var request = require('request');
 
- function ('https:www.npmjs.com/#pane-homepage-pricing', function) (error, response, html) {
-  if (!error && response.statusCode == 200) {
-    console.log(html);
-  }
+var options = {
+    url: 'https://en.wikipedia.org/wiki/singapore'
+};
+
+
+request.get(options, function(err, response, html) {
+    if (err) {
+        console.log(err.message);
+        return;
+    }
+
+    var $ = cheerio.load(html);
+    var country = $('#firstHeading').text();
+    var capital = $("th:contains('Capital')").next().children('a').text();
+    var religion = $("#mw-content-text > table.infobox.geography.vcard > tr:nth-child(11) > td > a:nth-child(1)").text();
+
+    console.log('The capital of ' + country + ' is ' + capital + '. Currently the largest city in ' + country + ' is ' +  religion + '.');
+
 });
