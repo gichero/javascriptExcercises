@@ -1,28 +1,30 @@
 //splice n files
 
-require('any-promise/register/bluebird');
-var Promise = require('bluebird');
 var fs = require('fs-promise');
-
-function splice(nfiles){
-    return Promise.all(nfiles.map(function (file);
+var Promise = require('bluebird');
+var _ = require('lodash');
+function splice(files, output) {
+  var readFilePromises = files.map(function(file) {
     return fs.readFile(file);
-
-    then(function(buffer){
-        return [buffer, fs.readfile(files + 1)];
-    })
-    spread (function(buffer +1 ){
-
+  });
+  return Promise.all(readFilePromises)
+    .then(function(fileContents) {
+      var poemLines = fileContents.map(function(buffer) {
+        return buffer.toString().split('\n');
+      });
+      // _.zip(poemLines[0], poemLines[1], poemLines[2]);
+      var zipped = _.zip.apply(null, poemLines);
+      console.log(zipped);
+      var flattened = _.flatten(zipped);
+      console.log(flattened);
+      var result = flattened.join('\n');
+      return fs.writeFile(output, result);
     });
-
 }
 
-
-
-
-  splice(['file-1.txt', 'file-2.txt', 'file-3.txt', 'file-4.txt'], 'output')
+splice(['file1.txt', 'file2.txt', 'file3.txt'], 'output.txt')
   .then(function() {
-    console.log('It worked.');
+    console.log('It worked');
   })
   .catch(function(err) {
     console.log(err.message);
