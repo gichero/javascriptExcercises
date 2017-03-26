@@ -3,6 +3,7 @@
 var fs = require('fs-promise');
 var Promise = require('bluebird');
 var _ = require('lodash');
+
 function splice(files, output) {
   var readFilePromises = files.map(function(file) {
     return fs.readFile(file);
