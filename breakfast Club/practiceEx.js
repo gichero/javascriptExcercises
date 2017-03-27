@@ -21,28 +21,29 @@
 
 
 //vowel counts
-//     var words = [
-//   'bananas',
-//   'jewel',
-//   'cat'
-// ];
-// var count = [];
-//
-// var vowels = ['a', 'e', 'i', 'o', 'u'];
-//
-// words.forEach(function(e){
-//
-//   e.map(function(v){
-//     if (vowels in words ){
-//         count += 1;
-//       }
-//
-//     });
-//
-//   });
-//   return count;
+    var words = [
+  'bananas',
+  'jewel',
+  'cat'
+];
+var count = [];
+
+var vowels = ['a', 'e', 'i', 'o', 'u'];
+
+words.forEach(function(word){
+
+  vowels.filter(function(vowel, word){
+    if ((word.match)== vowel){
+        return count += 1;
+      }
+
+    });
+
+  });
+
+
 
   //problem solving(reverse words)
 
-  var str = 'There is a ball in the tree can you get it';
-  console.log(str.split(''). reverse().join('').split(' ').reverse().join(' '));
+  // var str = 'There is a ball in the tree can you get it';
+  // console.log(str.split(''). reverse().join('').split(' ').reverse().join(' '));
