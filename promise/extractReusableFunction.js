@@ -37,7 +37,7 @@ var urls = [
 function downloadAllUrls(urls){
     var htmlPromises = urls.map(function(url) {
       return request.get(url);
-    });
+  });
 
     return Promise.all(htmlPromises)
     .then(function(htmls) {
