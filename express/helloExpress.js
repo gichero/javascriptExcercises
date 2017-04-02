@@ -6,21 +6,29 @@
 var express = require ('express');
 var app = express();
 
-app.get('/', function (req, res){
-    res.send('Hello World!');
-});
-
-app.get('/cats', function(req, res){
-    res.send('Meeeowwww!');
-});
-
-app.get('/dogs', function(req, res){
-    res.send('Woof!, Woof!');
-});
-
-app.get('/cats_and_dogs', function(req, res){
-    res.send('Living together');
-});
+// var animals = [
+//   { name: 'cats', favorite: true },
+//   { name: 'dogs', favorite: true },
+//   { name: 'tree frogs', favorite: true },
+//   { name: 'earth worms', favorite: false },
+//   { name: 'guinea pigs', favorite: true },
+// ];
+//
+// app.get('/', function (req, res){
+//     res.send('Hello World!');
+// });
+//
+// app.get('/cats', function(req, res){
+//     res.send('Meeeowwww!');
+// });
+//
+// app.get('/dogs', function(req, res){
+//     res.send('Woof!, Woof!');
+// });
+//
+// app.get('/cats_and_dogs', function(req, res){
+//     res.send('Living together');
+// });
 
 // Route Parameters
 // Adding to the same program, say a greeting to the user, given that the user's name is encoded inside the URL. For example, if you go to the URL
@@ -30,20 +38,20 @@ app.get('/cats_and_dogs', function(req, res){
 // /greet/Manny it should say "Hello, Manny!"
 // etc...
 
-app.get('/greet/:name', function(req, res){
-    var name = req.params.name || 'Kennedy';
-    res.send('Hello ' +name+ '!');
-});
+// app.get('/greet/:name', function(req, res){
+//     var name = req.params.name || 'Kennedy';
+//     res.send('Hello ' +name+ '!');
+// });
 
 // Query Parameters: Tell the year you were born
 // Adding to the same program, display the year you were born when you report your age in a query parameter. For example, when you go to the URL:
 // /year?age=32 it will display You were born in 1985..
 
-app.get('/year', function(req, res){
-    var age = req.query.age || '?';
-    var year = new Date().getFullYear() - age;
-    res.send('You were born in ' +year);
-});
+// app.get('/year', function(req, res){
+//     var age = req.query.age || '?';
+//     var year = new Date().getFullYear() - age;
+//     res.send('You were born in ' +year);
+// });
 
 // Templates
 // Make the greet page say hello to visitor and tell the year they were born. This time you will use a .hbs file in the viewws folder to render the message using HTML.

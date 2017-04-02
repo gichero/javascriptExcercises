@@ -1,0 +1,16 @@
+{
+  "name": "pg-promise-ex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "create_album.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "pg-promise": "^5.6.4",
+    "prompt-promise": "^1.0.3"
+  }
+}
