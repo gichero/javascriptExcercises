@@ -1,0 +1,14 @@
+body {
+    font-family: helvetica;
+    background-color: #ffcccc;
+    color: blue;
+}
+#heading {
+    text-align: center;
+}
+.content {
+    border: 2px solid black;
+    width: 850px;
+    margin: 0 auto;
+    padding: 20px;
+}

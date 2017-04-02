@@ -12,6 +12,9 @@ var animals = [
   { name: 'tree frogs', favorite: true },
   { name: 'earth worms', favorite: false },
   { name: 'guinea pigs', favorite: true },
+  { name: 'leopard', favorite: true },
+  { name: 'giraffe', favorite: true },
+  { name: 'rhino', favorite: true },
 ];
 
 // Route Parameters
@@ -22,20 +25,20 @@ var animals = [
 // /greet/Manny it should say "Hello, Manny!"
 // etc...
 
-app.get('/greet/:name', function(req, res){
-    var name = req.params.name || 'Kennedy';
-    res.send('Hello ' +name+ '!');
-});
+// app.get('/greet/:name', function(req, res){
+//     var name = req.params.name || 'Kennedy';
+//     res.send('Hello ' +name+ '!');
+// });
 
 // Query Parameters: Tell the year you were born
 // Adding to the same program, display the year you were born when you report your age in a query parameter. For example, when you go to the URL:
 // /year?age=32 it will display You were born in 1985..
 
-app.get('/year', function(req, res){
-    var age = req.query.age || '?';
-    var year = new Date().getFullYear() - age;
-    res.send('You were born in ' +year);
-});
+// app.get('/year', function(req, res){
+//     var age = req.query.age || '?';
+//     var year = new Date().getFullYear() - age;
+//     res.send('You were born in ' +year);
+// });
 
 // Templates
 // Make the greet page say hello to visitor and tell the year they were born. This time you will use a .hbs file in the viewws folder to render the message using HTML.
@@ -46,9 +49,11 @@ app.get('/year', function(req, res){
 app.get('/greet/:name', function(req, res){
     var name = req.params.name;
     var age = req.query.age;
+    var year = 2017 - age;
     res.render('helloExpress.hbs', {
+        title: 'Hello',
         name:  name,
-        year: 2017 - age
+        year: year
     });
 });
 
@@ -61,6 +66,8 @@ app.get('/favAnimals', function(req, res) {
 });
 
 
+app.use(express.static('public'));
+app.set('view engine', 'hbs');
 app.listen(3000, function(){
 console.log('Example app listening on port 3000');
 });
