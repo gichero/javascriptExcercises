@@ -1,0 +1,13 @@
+body {
+    font-family: helvetica;
+    background-color: #ffcccc;
+    color: blue;
+    text-align: center;
+}
+.search {
+  padding-top: 200px;
+}
+.search input,
+.search button {
+  font-size: 2em;
+}
