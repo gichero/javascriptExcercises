@@ -1,7 +1,7 @@
 var connect = {
     host : 'localhost',
     port: 5432,
-    database: 'restaurant_db'
+    database: 'restaurantdb'
 };
 
 module.exports = connect;

@@ -34,23 +34,23 @@ app.get('/search',function(req,res){
     });
 });
 
-// app.get('/restaurant/', function(req, res){
-//     let term2 = req.query.search;
-//     console.log('Term2', term);
-//     db.one(`select * from restaurant where restaurant.id ilike '%${term2}%'`)
-// })
-// .then(function(resultsArray){
-//     console.log('results', resultsArray);
-//     res.render('restaurant.hbs', {
-//         results: resultsArray
-//         });
-//
-//     })
-// .catch(function(err){
-//     console.log(err.message);
-//     });
-//
-// });
+app.get('/restaurant/:id', function(req, res){
+    let term2 = req.query.search;
+    console.log('Term2', term);
+    db.one(`select * from restaurant where restaurant.id ilike '%${term2}%'`)
+})
+.then(function(resultsArray){
+    console.log('results', resultsArray);
+    res.render('restaurant.hbs', {
+        results: resultsArray
+        });
+
+    })
+.catch(function(err){
+    console.log(err.message);
+    });
+
+});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
