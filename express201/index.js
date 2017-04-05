@@ -13,6 +13,7 @@ const db = pgp(dbconfig);
 
 app.set('view engine', 'hbs');
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static('public'));
 
 //home page path
 app.get('/', function(req,res){
@@ -23,8 +24,7 @@ app.get('/', function(req,res){
 app.get('/search',function(req,res, next){
     let term = req.query.search;
     console.log('Term', term);
-    //db.any(`select * from restaurant where restaurant.name ilike '%${term}%'`)
-    db.any(`select * from restaurant where restaurant.'%${term}%' = $1`, %${term}%)
+    db.any(`select * from restaurant where restaurant.name ilike '%${term}%'`)
     .then(function(resultsArray){
         console.log('results', resultsArray);
         res.render('search_results.hbs', {
@@ -37,7 +37,7 @@ app.get('/search',function(req,res, next){
 
 //restaurant page path
 app.get('/restaurant/:id', function(req, res, next){
-    let id = req.params.id;
+    let restaurantid = req.params.id;
     db.any(`
         select
           reviewer.name as reviewer_name,
@@ -50,13 +50,12 @@ app.get('/restaurant/:id', function(req, res, next){
           review on review.restaurantid = restaurant.restaurantid
         inner join
           reviewer on review.reviewerid = reviewer.reviewerid
-        where restaurant.restaurantid = ${id}`)
+        where restaurant.restaurantid = ${restaurantid}`)
 
     .then(function(reviews){
-
         return [
             reviews,
-            db.one(`select name from restaurant where restaurantid = ${id}`)
+            db.one(`select name from restaurant where restaurantid = ${restaurantid}`)
         ]
     })
     .spread(function(reviews, restaurant) {
@@ -68,10 +67,19 @@ app.get('/restaurant/:id', function(req, res, next){
 
     .catch(next);
 });
+//post review path
+app.post('/submit_review/:id', function (req, res, next){
+    let restaurantid = req.params.id;
+    console.log('restaurant ID', id);
+    console.log('from the form', req.body);
+    db.none(`insert into review values
+      (default, NULL, ${req.body.stars}, '${req.body.title}', '${req.body.review}', ${restaurantid})`)
+      .then(function() {
+        res.redirect(`/restaurant/${restaurantid}`);
+      })
+      .catch(next);
+  });
 
-
-// app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static('public'));
 app.listen(3000, function() {
     console.log('Example app listening on port 3000!');
 });
