@@ -1,19 +1,37 @@
 const express = require ('express');
 const Promise = require('bluebird');
 const hbs = require('hbs');
+const session = require('express-session');
 const pgp = require('pg-promise')({
+
 
   promiseLib: Promise
 });
 const bodyParser = require('body-parser');
 const app = express();
 
+//body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static('public'));
+
+app.use(session({
+    secret: 'qwertycat',
+    cookie: {
+        maxAge: 6000
+    }
+}));
+
 const dbconfig = require('./config');
 const db = pgp(dbconfig);
 
+//view engine middleware
 app.set('view engine', 'hbs');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static('public'));
+
+
+app.post('/', function(req, res){
+    req.render('login.hbs');
+    res.redirect('/search');
+});
 
 //home page path
 app.get('/', function(req,res){
@@ -32,7 +50,6 @@ app.get('/search',function(req,res, next){
         });
     })
     .catch(next);
-
 });
 
 //restaurant page path
