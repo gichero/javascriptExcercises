@@ -12,47 +12,65 @@ const dbconfig = require('./config');
 const db = pgp(dbconfig);
 
 app.set('view engine', 'hbs');
+app.use(bodyParser.urlencoded({ extended: false }));
 
+//home page path
 app.get('/', function(req,res){
     res.render('search.hbs');
-
     });
 
-app.get('/search',function(req,res){
+// submit search path
+app.get('/search',function(req,res, next){
     let term = req.query.search;
     console.log('Term', term);
-    db.any(`select * from restaurant where restaurant.name ilike '%${term}%'`)
+    //db.any(`select * from restaurant where restaurant.name ilike '%${term}%'`)
+    db.any(`select * from restaurant where restaurant.'%${term}%' = $1`, %${term}%)
     .then(function(resultsArray){
         console.log('results', resultsArray);
         res.render('search_results.hbs', {
-            results: resultsArray
+            result: resultsArray
         });
-
     })
-    .catch(function(err){
-        console.log(err.message);
-    });
-});
-
-app.get('/restaurant/:id', function(req, res){
-    let term2 = req.query.search;
-    console.log('Term2', term);
-    db.one(`select * from restaurant where restaurant.id ilike '%${term2}%'`)
-})
-.then(function(resultsArray){
-    console.log('results', resultsArray);
-    res.render('restaurant.hbs', {
-        results: resultsArray
-        });
-
-    })
-.catch(function(err){
-    console.log(err.message);
-    });
+    .catch(next);
 
 });
 
-app.use(bodyParser.urlencoded({ extended: false }));
+//restaurant page path
+app.get('/restaurant/:id', function(req, res, next){
+    let id = req.params.id;
+    db.any(`
+        select
+          reviewer.name as reviewer_name,
+          review.title,
+          review.stars,
+          review.review
+        from
+          restaurant
+        inner join
+          review on review.restaurantid = restaurant.restaurantid
+        inner join
+          reviewer on review.reviewerid = reviewer.reviewerid
+        where restaurant.restaurantid = ${id}`)
+
+    .then(function(reviews){
+
+        return [
+            reviews,
+            db.one(`select name from restaurant where restaurantid = ${id}`)
+        ]
+    })
+    .spread(function(reviews, restaurant) {
+      res.render('restaurant.hbs', {
+        restaurant: restaurant,
+        reviews: reviews
+      });
+    })
+
+    .catch(next);
+});
+
+
+// app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.listen(3000, function() {
     console.log('Example app listening on port 3000!');
