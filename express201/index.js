@@ -35,7 +35,7 @@ app.get('/login', function(req, res){
     res.render('login.hbs');
 });
 
-app.post('/submit_login', function(req, res) {
+app.post("/submit_login", function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
   console.log(username, password);
@@ -45,10 +45,10 @@ app.post('/submit_login', function(req, res) {
   `, [username, password])
     .then(function() {
       req.session.loggedInUser = username;
-      res.redirect('/');
+      res.redirect("/");
     })
     .catch(function(err) {
-      res.redirect('/login');
+      res.redirect("login");
     });
 });
 
