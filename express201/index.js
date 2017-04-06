@@ -4,7 +4,6 @@ const hbs = require('hbs');
 const session = require('express-session');
 const pgp = require('pg-promise')({
 
-
   promiseLib: Promise
 });
 const bodyParser = require('body-parser');
@@ -17,7 +16,7 @@ app.use(express.static('public'));
 app.use(session({
     secret: 'qwertycat',
     cookie: {
-        maxAge: 6000
+        maxAge: 60000
     }
 }));
 
@@ -27,10 +26,30 @@ const db = pgp(dbconfig);
 //view engine middleware
 app.set('view engine', 'hbs');
 
+app.use(function(req, res, next) {
+  res.locals.session = req.session;
+  next();
+});
 
-app.post('/', function(req, res){
-    req.render('login.hbs');
-    res.redirect('/search');
+app.get('/login', function(req, res){
+    res.render('login.hbs');
+});
+
+app.post('/submit_login', function(req, res) {
+  var username = req.body.username;
+  var password = req.body.password;
+  console.log(username, password);
+  db.one(`
+    select * from login where
+    username = $1 and password = $2
+  `, [username, password])
+    .then(function() {
+      req.session.loggedInUser = username;
+      res.redirect('/');
+    })
+    .catch(function(err) {
+      res.redirect('/login');
+    });
 });
 
 //home page path
@@ -84,6 +103,15 @@ app.get('/restaurant/:id', function(req, res, next){
 
     .catch(next);
 });
+
+app.use(function authentication(req, res, next) {
+  if (req.session.loggedInUser) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+});
+
 //post review path
 app.post('/submit_review/:id', function (req, res, next){
     let restaurantid = req.params.id;

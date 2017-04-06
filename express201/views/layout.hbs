@@ -6,6 +6,9 @@
         <link href = '/style.css' rel = 'stylesheet' />
     </head>
     <body>
+        {{#if session.loggedInUser}}
+          <p>Welcome, {{session.loggedInUser}}!</p>
+        {{/if}}
         {{{body}}}
     </body>
 </html>
