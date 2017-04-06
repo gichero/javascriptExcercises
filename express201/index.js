@@ -2,6 +2,7 @@ const express = require ('express');
 const Promise = require('bluebird');
 const hbs = require('hbs');
 const session = require('express-session');
+const bcrypt = require("bcrypt");
 const pgp = require('pg-promise')({
 
   promiseLib: Promise
@@ -23,6 +24,30 @@ app.use(session({
 const dbconfig = require('./config');
 const db = pgp(dbconfig);
 
+app.get('/sign_up', function(req, res){
+    res.render('signup.hbs');
+
+});
+
+app.post('/sign_up_submit', function(req, res, next){
+    console.log('sign_up_submit');
+    const username = req.body.username;
+    const password = req.body.password;
+
+    bcrypt.hash(password, 10)
+    .then(function(hashedPassword){
+
+        return db.one(`insert into login (id, username, password) values (default, $1, $2)`, [username, hashedPassword])
+    })
+    .then(function(){
+        req.session.loggedInUser = username.username;
+        res.redirect('/')
+        console.log("Data Inserted");
+    })
+    .catch(next);
+    res.redirect('/sign_up_submit');
+});
+
 //view engine middleware
 app.set('view engine', 'hbs');
 
@@ -39,18 +64,32 @@ app.post("/submit_login", function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
   console.log(username, password);
+
+  //1. get user name and password from form
+  //2. get encrypted password from the login table
+  //3. compare encrypted password with plain password
+  //4. if match
+  //   * log them in saving their name into session
+  //   * else redirect to login page
+
   db.one(`
     select * from login where
-    username = $1 and password = $2
-  `, [username, password])
-    .then(function() {
-      req.session.loggedInUser = username;
-      res.redirect("/");
-    })
-    .catch(function(err) {
-      res.redirect("login");
-    });
-});
+     username = $1
+   `, [username])
+      .then(function(result){
+          return bcrypt.compare(password, result.password);
+      })
+      .then(function(matched){
+          if (matched) {
+              req.session.loggedInUser = username;
+              res.redirect('/');
+          }
+              else{
+                  res.redirect('login');
+              }
+          })
+      });
+
 
 //home page path
 app.get('/', function(req,res){
