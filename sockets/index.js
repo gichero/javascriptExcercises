@@ -17,8 +17,21 @@ res.sendFile(__dirname + '/index.html');
 // });
 
 io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
+    var userName;
+
+    //new connection
+    socket.on('user connect', function (user) {
+        userName = user.name
+        io.emit('user connect', user.name + ' has joined.');
+  });
+    //disconnection
+    socket.on('user disconnect', function (user) {
+        io.emit('user disconnect', user.name + ' has disconnected.');
+  });
+    //chat message
+    socket.on('chat message', function(msg){
+        io.emit('chat message',userName +": "+ msg);
+
   });
 });
 
