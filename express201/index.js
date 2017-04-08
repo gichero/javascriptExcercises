@@ -90,7 +90,6 @@ app.post("/submit_login", function(req, res) {
           })
       });
 
-
 //home page path
 app.get('/', function(req,res){
     res.render('search.hbs');

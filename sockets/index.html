@@ -21,7 +21,13 @@
 
 
   $(function () {
+    var userName= prompt('what is your name?');
+
     var socket = io();
+    var data = {
+        name: userName
+    };
+    socket.emit('user connect', data);
     $('form').submit(function(){
       socket.emit('chat message', $('#m').val());
       $('#m').val('');
