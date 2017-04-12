@@ -101,7 +101,7 @@ app.get('/search',function(req,res, next){
     console.log('Term', term);
     db.any(`select * from restaurant where restaurant.name ilike '%${term}%'`)
     .then(function(resultsArray){
-        console.log('results', resultsArray);
+        //console.log('results', resultsArray);
         res.render('search_results.hbs', {
             result: resultsArray
         });
@@ -129,13 +129,18 @@ app.get('/restaurant/:id', function(req, res, next){
     .then(function(reviews){
         return [
             reviews,
-            db.one(`select name from restaurant where restaurantid = ${restaurantid}`)
+            db.one(`select name, address from restaurant where restaurantid = ${restaurantid}`)
         ]
     })
     .spread(function(reviews, restaurant) {
+        var add = restaurant.address.replace(/\s/g, "+");
+        var url = "https://www.google.com/maps/embed/v1/place?key=AIzaSyCQTSdDzTKk18aDJajHlNjH2I1E0iefwxo&q="+add;
       res.render('restaurant.hbs', {
         restaurant: restaurant,
-        reviews: reviews
+        reviews: reviews,
+        restaurant_address: add,
+        url:url
+
       });
     })
 
@@ -166,3 +171,5 @@ app.post('/submit_review/:id', function (req, res, next){
 app.listen(3000, function() {
     console.log('Example app listening on port 3000!');
 });
+
+//AIzaSyDJ7A4c-KnsM0SPzWDvsyAL5sv357R_6aQ (google maps key)
